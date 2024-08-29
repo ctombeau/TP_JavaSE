@@ -58,7 +58,9 @@ public class Main {
 			empService.listEmploye();
 			break;
 		case 3:
-			empService.showEmploye("");
+			System.out.print("Code Employe: ");
+			Scanner sc2 = new Scanner(System.in);
+			empService.showEmploye(sc2.nextLine());
 			break;
 		case 4:
 			empService.deleteemploye("");

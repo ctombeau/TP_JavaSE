@@ -12,6 +12,8 @@ import java.io.ObjectOutputStream;
 import java.net.UnknownHostException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.rh.Main;
 import com.rh.model.Employe;
@@ -19,7 +21,6 @@ import com.rh.model.Employe;
 public class DigicelDb {
     
 	public void saveData(String chemin, Object obj) {
-		//Path path = Paths.get(chemin);
 		
 		int nbreLine = countLine(chemin)+1;
 		String str;
@@ -38,27 +39,53 @@ public class DigicelDb {
 	}
 	
 	public void getData(String chemin) {
+		List<String> empAsString = new ArrayList<String>();
+		String line ="";
 		Employe emp = null;
-		try {
-            FileInputStream fileIn = new FileInputStream(chemin);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            emp = (Employe) in.readObject();
-            in.close();
-            fileIn.close();
+		try(FileReader fileIn = new FileReader(chemin);
+				BufferedReader br = new BufferedReader(fileIn);) {
+            while((line = br.readLine())!=null) {
+            	String [] empLine = line.split(";");
+            	System.out.println("id		:"+empLine[0]);
+            	System.out.println("Nom		:"+empLine[1]);
+            	System.out.println("Prenom 	:"+empLine[2]);
+            	System.out.println("Sexe 	:"+empLine[3]);
+            	System.out.println("Date Naissance  :"+empLine[4]);
+            	System.out.println("___________________________________________________");
+            	empAsString.add(line);
+            }
+            //System.out.println(empAsString);
         } catch (IOException i) {
             i.printStackTrace();
             return;
-        } catch (ClassNotFoundException c) {
-            System.out.println("Employee class not found");
-            c.printStackTrace();
-            return;
-        }
-        System.out.println("Deserialized Employee...");
-        System.out.println("Name: " + emp.getNom());
-        System.out.println("Prenom: " + emp.getPrenom());
-        System.out.println("Sexe: " + emp.getSexe());
-        System.out.println("Date Naissance: " + emp.getDateNaissance());
+        } 
+		Main.performAnotherTask();
     }
+	
+	public void getEmploye(String chemin, String code) {
+		String str;
+		int  nbreLine=0;
+		try(FileReader fr = new FileReader(chemin);
+			BufferedReader br = new BufferedReader(fr);) {
+			while(( str = br.readLine()) != null)
+		    {
+		        nbreLine++;  
+		        if(nbreLine==Integer.parseInt(code)) {
+		        	String [] empLine = str.split(";");
+	            	System.out.println("id		:"+empLine[0]);
+	            	System.out.println("Nom		:"+empLine[1]);
+	            	System.out.println("Prenom 	:"+empLine[2]);
+	            	System.out.println("Sexe 	:"+empLine[3]);
+	            	System.out.println("Date Naissance  :"+empLine[4]);
+	            	break;
+		        }
+		    }
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		Main.performAnotherTask();
+	}
 	
 	public int countLine(String chemin) {
 		String str;

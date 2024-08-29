@@ -16,7 +16,7 @@ public class EmployeService {
     final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     Employe emp = new Employe();
     
-	public Employe AddEmploye(Employe e) {
+	public void AddEmploye(Employe e) {
 		
 		System.out.println("\n*****************************Ajout d'un employe*************************************\n ");
 		System.out.print("Nom :");
@@ -46,8 +46,6 @@ public class EmployeService {
 		DigicelDb digicelDb = new DigicelDb();
 		digicelDb.saveData("C:/RH/Employe.txt", emp);
 		
-		//System.out.println(emp.getNom() + " "+ emp.getPrenom() + " "+ emp.getSexe() + " "+ emp.getDateNaissance());
-		return null;
 	}
 	
 	public void listEmploye()
@@ -60,8 +58,9 @@ public class EmployeService {
 		return null;
 	}
 	
-	public Employe showEmploye(String code) {
-		return null;
+	public void showEmploye(String code) {
+		DigicelDb digicelDb = new DigicelDb();
+		digicelDb.getEmploye("C:/RH/Employe.txt",code);
 	}
 	
 	public void deleteemploye(String code) {

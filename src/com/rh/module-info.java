@@ -1,3 +1,3 @@
-module RH {
-	requires java.base;
-}
+//module com.rh {
+//	requires java.base;
+//}
